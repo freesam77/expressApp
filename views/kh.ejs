@@ -1,0 +1,19 @@
+<% include partials/header %>
+
+<h1>Magics in Kingdom Hearts</h1>
+<h2>below is the list of some of the most popular, re-occuring magics in Kingdom Hearts</h2>
+
+<table style="border: 1px solid black">
+    <tr>
+        <th>Magic</th>
+        <th>Variations</th>
+    </tr>
+    <% data.forEach(x => { %>
+        <tr>
+            <td><%=x.magic%></td>
+            <td><%=x.desc%></td>
+        </tr>
+    <% }) %>
+</table>
+
+<% include partials/footer %>

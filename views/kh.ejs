@@ -16,4 +16,18 @@
     <% }) %>
 </table>
 
+<form action="/newpost" method="POST">
+    <div>
+        <label for="magic">Magic</label>
+        <input type="text" name="magic">
+    </div>
+
+    <div>
+        <label for="desc">Variation</label>
+        <input type="text" name="desc">
+    </div>
+
+    <button>List your magic!</button>
+</form>
+
 <% include partials/footer %>

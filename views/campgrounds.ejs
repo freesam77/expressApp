@@ -1,0 +1,21 @@
+<% include partials/header %>
+<div class="row">
+    
+    <h1>Campgrounds List</h1>
+
+    <ul class="ml-auto"><a href="/campgrounds/new"><button class="btn btn-outline-secondary"><i class="fas fa-plus"></i> Create New Campground</button></a></ul>
+
+</div>    
+<div class="row">
+    
+        <% campgrounds.forEach(x => {%>
+                        <div class="col-lg-6 col-sm-12 card">
+                                <img class="card-img-top" src="<%= x.image %>" alt="<%= x.name %>">
+                                <div class="card-body">
+                                  <p class="card-title"><%= x.name %></p>
+                            </div>
+                        </div>
+        <% }) %>
+
+</div>    
+<% include partials/footer %>

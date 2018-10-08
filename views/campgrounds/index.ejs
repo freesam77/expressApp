@@ -1,4 +1,4 @@
-<% include partials/header %>
+<% include ../partials/header %>
 <div class="row">
     
     <h1>Campgrounds List</h1>
@@ -9,13 +9,15 @@
 <div class="row">
     
         <% campgrounds.forEach(x => {%>
-                        <div class="col-lg-6 col-sm-12 card">
+                        <div class="col-lg-6 col-sm-12 card align-items-center">
                                 <img class="card-img-top" src="<%= x.image %>" alt="<%= x.name %>">
                                 <div class="card-body">
-                                  <p class="card-title"><%= x.name %></p>
-                            </div>
+                                  <h2 class="card-title"><%= x.name %></h2>
+                                  <a href="/campgrounds/<%= x._id %>" class="btn btn-primary">More Info</a>
+                                  <a href="/campgrounds/<%= x._id %>/edit" class="btn btn-success">Edit Item </a>
+                                </div>
                         </div>
         <% }) %>
 
 </div>    
-<% include partials/footer %>
+<% include ../partials/footer %>

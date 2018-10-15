@@ -1,0 +1,19 @@
+table{
+    border: 1px solid black;
+}
+
+img{
+    max-width: 300px;
+}
+
+/* Header */
+.navbar{
+    margin-bottom: 2em;
+    /* background-color: lightblue !important; */
+
+}
+
+/* Index */
+h2.card-title{
+    text-align: center;
+}

@@ -51,8 +51,8 @@ let seedDB = () => {
           // add few comments
           Comment.create(
             {
-              author: "Author 1",
-              comment: "Commentsssssss."
+              author: "INITIAL COMMENT",
+              comment: "Please enter more comment below..."
             },
             function(err, comment) {
               if (err) {

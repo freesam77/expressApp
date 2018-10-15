@@ -1,0 +1,22 @@
+<% include ../partials/header %>
+
+<div class="col-md-6 offset-md-3">
+        <h1>Create a Comment on <%= campgrounds.name %></h1>
+        <form action="/campgrounds/<%=campgrounds._id%>/comments" method="POST">
+
+                <div class="form-group">
+                        <label for="comment[author]">Author</label>
+                        <input class="form-control" name="comment[author]"type="text">
+                </div>
+
+                <div class="form-group">
+                        <label for="comment[comment]">Comment</label>
+                        <input class="form-control" name="comment[comment]"type="text">
+                </div>
+                
+                <button type="submit" class="btn btn-primary btn-block">Submit!</button>
+        </form>
+        <a href="/campgrounds/<%=campgrounds._id%>">Go Back</a>
+</div>
+
+<% include ../partials/footer %>

@@ -1,9 +1,9 @@
 <% include ../partials/header %>
 <div class="row">
     
-    <h1>Campgrounds List</h1>
+    <h1>Posts</h1>
 
-    <ul class="ml-auto"><a href="/campgrounds/new"><button class="btn btn-outline-secondary"><i class="fas fa-plus"></i> Create New Campground</button></a></ul>
+    <ul class="ml-auto"><a href="/campgrounds/new"><button class="btn btn-outline-secondary"><i class="fas fa-plus"></i> Create New Post</button></a></ul>
 
 </div>    
 <div class="row">
@@ -14,7 +14,7 @@
                                 <div class="card-body">
                                   <h2 class="card-title"><%= x.name %></h2>
                                   <a href="/campgrounds/<%= x._id %>" class="btn btn-primary">More Info</a>
-                                  <a href="/campgrounds/<%= x._id %>/edit" class="btn btn-success">Edit Item </a>
+                                  <a href="/campgrounds/<%= x._id %>/edit" class="btn btn-success">Edit Post </a>
                                 </div>
                         </div>
         <% }) %>

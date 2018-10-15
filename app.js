@@ -15,7 +15,7 @@ let express = require('express'),
 // APP CONFIG
     app.use(methodOverride("_method"));
     app.use(bodyParser.urlencoded({extended: true}));// ==> to bypass depreciation
-    app.use(express.static("public"))
+    app.use(express.static(__dirname + "public"))
     app.set("view engine","ejs");
 
 // Home page
@@ -23,94 +23,146 @@ app.get('/', function (req, res) {
     res.render("home")
 })
 
-// Campgrounds INDEX
-app.get('/campgrounds', function (req, res) {
+// =================
+// CAMPGROUND ROUTES
+// =================
 
-    // take data from the database
-    Campground.find({},function(err, alldata){
-        if(err){
-            console.log(err);
-        }else{
-            res.render("campgrounds/index",{campgrounds: alldata})
-        }
+    // INDEX
+    app.get('/campgrounds', function (req, res) {
+
+        // take data from the database
+        Campground.find({},function(err, alldata){
+            if(err){
+                console.log(err);
+            }else{
+                res.render("campgrounds/index",{campgrounds: alldata})
+            }
+        })
+
+    })
+    // NEW
+    app.get('/campgrounds/new', function (req, res) {
+        res.render("campgrounds/new")
     })
 
-})
-// Campgrounds NEW
-app.get('/campgrounds/new', function (req, res) {
-    res.render("campgrounds/new")
-  })
+    // CREATE
+    app.post('/campgrounds', function (req, res) {
+        let camp = req.body.camp;
 
-// Campgrounds CREATE
-app.post('/campgrounds', function (req, res) {
-    let camp = req.body.camp;
-
-    Campground.create(camp, function(err,campgrounds){
-        if (err) {
-            console.log(err)
-        } else {
-            console.log("New entry : ");
-            console.log(campgrounds)
-        }
-    })
-    res.redirect('/campgrounds')
-})
-
-// Campgrounds SHOW ==> Details of one item
-
-app.get("/campgrounds/:id",function(req,res){
-
-    Campground.findById(req.params.id).populate("comments").exec(function(err, campgrounds){
-        if(err){
-            console.log(err);
-            console.log("error!");
-        }else{
-            res.render("./campgrounds/show",{campgrounds: campgrounds})
-        }
+        Campground.create(camp, function(err,campgrounds){
+            if (err) {
+                console.log(err)
+            } else {
+                console.log("New entry : ");
+                console.log(campgrounds)
+            }
+        })
+        res.redirect('/campgrounds')
     })
 
-})
+    // SHOW ==> Details of one item
 
-// Campgrounds EDIT
+    app.get("/campgrounds/:id",function(req,res){
 
-app.get("/campgrounds/:id/edit",function(req,res){
+        Campground.findById(req.params.id).populate("comments").exec(function(err, campgrounds){
+            if(err){
+                console.log(err);
+                console.log("error!");
+            }else{
+                res.render("./campgrounds/show",{campgrounds: campgrounds})
+            }
+        })
 
-    Campground.findById(req.params.id,function(err, campgrounds){
-        if(err){
-            console.log(err.message);
-            res.redirect("/campgrounds")
-        }else{
-            res.render("./campgrounds/edit",{campgrounds: campgrounds})
-        }
     })
 
-})
+    // EDIT
 
-// Campgrounds UPDATE
+    app.get("/campgrounds/:id/edit",function(req,res){
 
-app.put("/campgrounds/:id", function(req,res){
+        Campground.findById(req.params.id,function(err, campgrounds){
+            if(err){
+                console.log(err.message);
+                res.redirect("/campgrounds")
+            }else{
+                res.render("./campgrounds/edit",{campgrounds: campgrounds})
+            }
+        })
 
-    Campground.findOneAndUpdate({ _id: req.params.id}, req.body.camp, function(err, campgrounds){
-        if(err){
-            console.log(err);
-            console.log("error updating!")
-            res.redirect('/campgrounds')
-        }else{
-            res.redirect('/campgrounds/' + req.params.id)
-        }
     })
 
-})
-// Campgrounds DELETE
+    // UPDATE
 
-app.delete("/campgrounds/:id", function(req,res){
+    app.put("/campgrounds/:id", function(req,res){
 
-    Campground.findByIdAndRemove(req.params.id, function(err){
-            res.redirect('/campgrounds')
+        Campground.findOneAndUpdate({ _id: req.params.id}, req.body.camp, function(err, campgrounds){
+            if(err){
+                console.log(err);
+                console.log("error updating!")
+                res.redirect('/campgrounds')
+            }else{
+                res.redirect('/campgrounds/' + req.params.id)
+            }
+        })
+
+    })
+    // DELETE
+
+    app.delete("/campgrounds/:id", function(req,res){
+
+        Campground.findByIdAndRemove(req.params.id, function(err){
+                res.redirect('/campgrounds')
+        })
+
     })
 
-})
 
+// =================
+// COMMENT ROUTES
+// =================
+
+    // NEW
+    app.get("/campgrounds/:id/comments/new",function(req,res){
+
+        Campground.findById(req.params.id).populate("comments").exec(function(err, campgrounds){
+            if(err){
+                console.log(err);
+                console.log("error!");
+            }else{
+                res.render("./comments/new",{campgrounds: campgrounds})
+            }
+        })
+    })
+    // CREATE
+    app.post("/campgrounds/:id/comments",function(req,res){
+        let newcomment = req.body.comment;
+
+        Campground.findById(req.params.id, function(err, campgrounds){
+            if(err){
+                console.log(err);
+                console.log("Finding Campground ERROR");
+                res.redirect("/campgrounds")
+            }else{
+                console.log("Comment created :");
+                console.log(newcomment);
+                Comment.create(newcomment, function(err, newcom){
+                    if(err){
+                        console.log(err);
+                        console.log("Creating new comment ERROR");
+                    }else{
+                        campgrounds.comments.push(newcom);
+                        campgrounds.save();
+
+                        res.redirect("/campgrounds/" + campgrounds._id);
+                    }
+                })
+
+            }
+        })
+    })
+    // SHOW
+    app.get("",function(req,res){
+
+    })
 
 
 

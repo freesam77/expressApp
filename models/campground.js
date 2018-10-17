@@ -1,4 +1,4 @@
-let mongoose = require('mongoose');
+let mongoose = require("mongoose");
 
 let campgroundSchema = new mongoose.Schema({
     name: String,

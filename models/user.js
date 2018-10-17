@@ -1,8 +1,11 @@
-let mongoose = require('mongoose');
+let mongoose = require("mongoose");
+let passportLocalMongoose = require("passport-local-mongoose")
 
-let commentSchema = new mongoose.Schema({
-    author: String,
-    comment: String
+let UserSchema = new mongoose.Schema({
+    username: String,
+    password: String
 })
 
-module.exports = mongoose.model("Comment", commentSchema);
+UserSchema.plugin(passportLocalMongoose);
+
+module.exports = mongoose.model("User", UserSchema);

@@ -6,8 +6,8 @@ let express                 = require("express"),
     methodOverride          = require("method-override"),
     request                 = require("request"),
     mongoose                = require("mongoose"),
-    passport                = require("passport"),    // PassportJS, for authentication
-    LocalStrategy           = require("passport-local"), // Passport local strategy
+    passport                = require("passport"),   // PassportJS, for authentication
+    LocalStrategy           = require("passport-local"),   // Passport local strategy
     passportLocalMongoose   = require("passport-local-mongoose"),
     // Models
     Campground              = require("./models/campground"),
@@ -32,6 +32,12 @@ let express                 = require("express"),
     }));
     app.use(passport.initialize());
     app.use(passport.session());
+
+    // setting a general variable, signed in user
+    app.use(function(req,res,next){
+        res.locals.currentUser = req.user;
+        next();
+    })
 
 // PASSPORT CONFIG
     passport.use(new LocalStrategy(User.authenticate())); // creating a new local strategy using User.authenticate() that comes from 
@@ -62,12 +68,12 @@ let express                 = require("express"),
 
     })
     // NEW
-    app.get('/campgrounds/new', function (req, res) {
+    app.get('/campgrounds/new',isLoggedIn, function (req, res) {
         res.render("campgrounds/new")
     })
 
     // CREATE
-    app.post('/campgrounds', function (req, res) {
+    app.post('/campgrounds',isLoggedIn, function (req, res) {
         let camp = req.body.camp;
 
         Campground.create(camp, function(err,campgrounds){
@@ -142,7 +148,7 @@ let express                 = require("express"),
 // =================
 
     // NEW
-    app.get("/campgrounds/:id/comments/new",function(req,res){
+    app.get("/campgrounds/:id/comments/new",isLoggedIn,function(req,res){
 
         Campground.findById(req.params.id).populate("comments").exec(function(err, campgrounds){
             if(err){
@@ -154,7 +160,7 @@ let express                 = require("express"),
         })
     })
     // CREATE
-    app.post("/campgrounds/:id/comments",function(req,res){
+    app.post("/campgrounds/:id/comments",isLoggedIn,function(req,res){
         let newcomment = req.body.comment;
 
         Campground.findById(req.params.id, function(err, campgrounds){
@@ -197,9 +203,6 @@ let express                 = require("express"),
             res.render("./auth/register")
         })
 
-        app.get("/secret",isLoggedIn,function(req,res){
-            res.render("./auth/secret")
-        })
 
         // POST
         app.post("/register",function(req,res){
@@ -213,7 +216,7 @@ let express                 = require("express"),
                 console.log("Created new user:")
                 console.log(user)
                 passport.authenticate("local")(req,res, function(){
-                    res.redirect("/secret")
+                    res.redirect("/campgrounds")
                 });
             })
         })
@@ -226,10 +229,10 @@ let express                 = require("express"),
 
         // POST
         app.post("/login",passport.authenticate("local",{
-            successRedirect: "/secret",
+            successRedirect: "/campgrounds",
             failureRedirect: "/login"
             }), function(req,res){
-
+                // this callback doesn't do anything
         })
 
     // LOGOUT

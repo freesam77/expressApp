@@ -49,8 +49,8 @@ let commentRoutes           = require("./routes/comments"),
 
         // App use Routes
         app.use(authRoutes)
-        app.use("/posts/:id/comments",commentRoutes)
         app.use("/posts",postsRoutes)
+        app.use("/posts/:id/comments",commentRoutes) //to be able to pass :id, mergeParams: true is required in the route
     
 
 // PASSPORT CONFIG

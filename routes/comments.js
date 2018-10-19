@@ -43,6 +43,11 @@ let express = require("express"),
                         console.log(err);
                         console.log("Creating new comment ERROR");
                     }else{
+                        // add username and id to comments
+                        newcom.author.id = req.user._id;
+                        newcom.author.username = req.user.username;
+                        newcom.save(); // save comment
+                        
                         posts.comments.push(newcom);
                         posts.save();
 

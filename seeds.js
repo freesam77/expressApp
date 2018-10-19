@@ -1,5 +1,5 @@
 let mongoose = require("mongoose"),
-  post = require("./models/post"),
+  Post = require("./models/post"),
   Comment = require("./models/comment");
 
 let data = [
@@ -35,37 +35,21 @@ let data = [
 
 let seedDB = () => {
   // Remove all posts
-  post.deleteMany({}, function(err) {
+  Post.deleteMany({}, function(err) {
     if (err) {
       console.log(err);
     } else {
       console.log("data removed");
       // add few posts
       data.forEach(seed => {
-        post.create(seed, function(err, post){
-          if (err) {
-            console.log("Error in creating post : ");
-            console.log(err);
-          }
-          console.log("new data entry added");
-          // add few comments
-          Comment.create(
-            {
-              author: "INITIAL COMMENT",
-              comment: "Please enter more comment below..."
-            },
-            function(err, comment) {
-              if (err) {
-                console.log("Error in creating Comment : ");
-                console.log(err);
-              }
-              console.log("Created a new comment!");
-              post.comments.push(comment);
-              post.save();
+          Post.create(seed, function(err, post){
+            if (err) {
+              console.log("Error in creating post : ");
+              console.log(err);
             }
-          );
+            console.log("new data entry added");
+          });
         });
-      });
     }
   });
 

@@ -13,12 +13,6 @@ let express = require("express"),
         }
     
 
-
-    // Home page
-    router.get('/', function (req, res) {
-        res.render("home")
-    })
-
     // INDEX
     router.get('/posts', function (req, res) {
 

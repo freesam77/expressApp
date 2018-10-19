@@ -48,9 +48,9 @@ let commentRoutes           = require("./routes/comments"),
     })
 
         // App use Routes
-        app.use(commentRoutes)
-        app.use(postsRoutes)
         app.use(authRoutes)
+        app.use("/posts/:id/comments",commentRoutes)
+        app.use("/posts",postsRoutes)
     
 
 // PASSPORT CONFIG
@@ -58,6 +58,11 @@ let commentRoutes           = require("./routes/comments"),
     passport.serializeUser(User.serializeUser());
     passport.deserializeUser(User.deserializeUser());
 
+
+// Home page
+    router.get('/', function (req, res) {
+        res.render("home")
+    })
 
 
 // Page not found for the rest of the route
@@ -68,4 +73,3 @@ app.get('*', function (req, res) {
 app.listen(3000,function(req, res){
     console.log("server started!")
   })
-

@@ -60,7 +60,7 @@ let commentRoutes           = require("./routes/comments"),
 
 
 // Home page
-    router.get('/', function (req, res) {
+    app.get('/', function (req, res) {
         res.render("home")
     })
 

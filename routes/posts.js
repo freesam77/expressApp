@@ -14,7 +14,7 @@ let express = require("express"),
     
 
     // INDEX
-    router.get('/posts', function (req, res) {
+    router.get('/', function (req, res) {
 
         // take data from the database
         Post.find({},function(err, alldata){
@@ -27,12 +27,12 @@ let express = require("express"),
 
     })
     // NEW
-    router.get('/posts/new',isLoggedIn, function (req, res) {
+    router.get('/new',isLoggedIn, function (req, res) {
         res.render("posts/new")
     })
 
     // CREATE
-    router.post('/posts',isLoggedIn, function (req, res) {
+    router.post('/',isLoggedIn, function (req, res) {
         let camp = req.body.camp;
 
         Post.create(camp, function(err,posts){
@@ -48,7 +48,7 @@ let express = require("express"),
 
     // SHOW ==> Details of one item
 
-    router.get("/posts/:id",function(req,res){
+    router.get("/:id",function(req,res){
 
         Post.findById(req.params.id).populate("comments").exec(function(err, posts){
             if(err){
@@ -63,7 +63,7 @@ let express = require("express"),
 
     // EDIT
 
-    router.get("/posts/:id/edit",function(req,res){
+    router.get("/:id/edit",function(req,res){
 
         Post.findById(req.params.id,function(err, posts){
             if(err){
@@ -78,25 +78,25 @@ let express = require("express"),
 
     // UPDATE
 
-    router.put("/posts/:id", function(req,res){
+    router.put("/:id", function(req,res){
 
         Post.findOneAndUpdate({ _id: req.params.id}, req.body.camp, function(err, posts){
             if(err){
                 console.log(err);
                 console.log("error updating!")
-                res.redirect('/posts')
+                res.redirect('/')
             }else{
-                res.redirect('/posts/' + req.params.id)
+                res.redirect('/' + req.params.id)
             }
         })
 
     })
     // DELETE
 
-    router.delete("/posts/:id", function(req,res){
+    router.delete("/:id", function(req,res){
 
         Post.findByIdAndRemove(req.params.id, function(err){
-                res.redirect('/posts')
+                res.redirect('/')
         })
 
     })

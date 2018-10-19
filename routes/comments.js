@@ -15,7 +15,7 @@ let express = require("express"),
     
 
     // NEW
-    router.get("/posts/:id/comments/new",isLoggedIn,function(req,res){
+    router.get("/new",isLoggedIn,function(req,res){
 
         Post.findById(req.params.id).populate("comments").exec(function(err, posts){
             if(err){
@@ -27,7 +27,7 @@ let express = require("express"),
         })
     })
     // CREATE
-    router.post("/posts/:id/comments",isLoggedIn,function(req,res){
+    router.post("/",isLoggedIn,function(req,res){
         let newcomment = req.body.comment;
 
         Post.findById(req.params.id, function(err, posts){

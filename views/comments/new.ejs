@@ -1,8 +1,8 @@
 <% include ../partials/header %>
 
 <div class="col-md-6 offset-md-3">
-        <h1>Create a Comment on <%= campgrounds.name %></h1>
-        <form action="/campgrounds/<%=campgrounds._id%>/comments" method="POST">
+        <h1>Create a Comment on <%= posts.name %></h1>
+        <form action="/posts/<%=posts._id%>/comments" method="POST">
 
                 <div class="form-group">
                         <label for="comment[author]">Writing a comment as</label>
@@ -16,7 +16,7 @@
                 
                 <button type="submit" class="btn btn-primary btn-block">Submit!</button>
         </form>
-        <a href="/campgrounds/<%=campgrounds._id%>">Go Back</a>
+        <a href="/posts/<%=posts._id%>">Go Back</a>
 </div>
 
 <% include ../partials/footer %>

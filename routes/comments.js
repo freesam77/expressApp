@@ -1,0 +1,57 @@
+let express = require("express"),
+    router  = express.Router({mergeParams: true}),
+    Post = require("../models/post"),
+    Comment = require("../models/comment")
+
+        // Check if user is logged in
+
+        function isLoggedIn(req,res,next){
+            if(req.isAuthenticated()){
+                return next();
+            }else{
+                res.redirect("/login");
+            }
+        }
+    
+
+    // NEW
+    router.get("/posts/:id/comments/new",isLoggedIn,function(req,res){
+
+        Post.findById(req.params.id).populate("comments").exec(function(err, posts){
+            if(err){
+                console.log(err);
+                console.log("error!");
+            }else{
+                res.render("./comments/new",{posts: posts})
+            }
+        })
+    })
+    // CREATE
+    router.post("/posts/:id/comments",isLoggedIn,function(req,res){
+        let newcomment = req.body.comment;
+
+        Post.findById(req.params.id, function(err, posts){
+            if(err){
+                console.log(err);
+                console.log("Finding post ERROR");
+                res.redirect("/posts")
+            }else{
+                console.log("Comment created :");
+                console.log(newcomment);
+                Comment.create(newcomment, function(err, newcom){
+                    if(err){
+                        console.log(err);
+                        console.log("Creating new comment ERROR");
+                    }else{
+                        posts.comments.push(newcom);
+                        posts.save();
+
+                        res.redirect("/posts/" + posts._id);
+                    }
+                })
+
+            }
+        })
+    })
+
+module.exports = router;

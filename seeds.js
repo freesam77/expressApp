@@ -1,5 +1,5 @@
 let mongoose = require("mongoose"),
-  Campground = require("./models/campground"),
+  post = require("./models/post"),
   Comment = require("./models/comment");
 
 let data = [
@@ -34,17 +34,17 @@ let data = [
 ];
 
 let seedDB = () => {
-  // Remove all campgrounds
-  Campground.deleteMany({}, function(err) {
+  // Remove all posts
+  post.deleteMany({}, function(err) {
     if (err) {
       console.log(err);
     } else {
       console.log("data removed");
-      // add few campgrounds
+      // add few posts
       data.forEach(seed => {
-        Campground.create(seed, function(err, campground){
+        post.create(seed, function(err, post){
           if (err) {
-            console.log("Error in creating Campground : ");
+            console.log("Error in creating post : ");
             console.log(err);
           }
           console.log("new data entry added");
@@ -60,8 +60,8 @@ let seedDB = () => {
                 console.log(err);
               }
               console.log("Created a new comment!");
-              campground.comments.push(comment);
-              campground.save();
+              post.comments.push(comment);
+              post.save();
             }
           );
         });

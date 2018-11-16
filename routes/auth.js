@@ -3,16 +3,6 @@ let express     = require("express"),
     passport    = require("passport"),
     User        = require("../models/user")
 
-    // Check if user is logged in
-
-    function isLoggedIn(req,res,next){
-        if(req.isAuthenticated()){
-            return next();
-        }else{
-            res.redirect("/login");
-        }
-    }
-
 
         // GET
         router.get("/register",function(req,res){
@@ -20,7 +10,7 @@ let express     = require("express"),
         })
 
 
-        // POST
+        // POST -- new user entry
         router.post("/register",function(req,res){
             let username = req.body.username;
             let password = req.body.password;

@@ -4,8 +4,8 @@ let express                 = require("express"),
     // Modules
 let bodyParser              = require("body-parser"),
     methodOverride          = require("method-override"),
-    request                 = require("request"),
     mongoose                = require("mongoose"),
+    request                 = require("request"),
     passport                = require("passport"),   // PassportJS, for authentication
     LocalStrategy           = require("passport-local"),   // Passport local strategy
     passportLocalMongoose   = require("passport-local-mongoose");
@@ -17,9 +17,11 @@ let post                    = require("./models/post"),
         
     // Seeds
 let seedDB                  = require("./seeds");
+    console.log("seeding the data...")
     seedDB();
+    console.log("seeding completed!")
 
-    // Routes
+    // Routes ==> require
 let commentRoutes           = require("./routes/comments"),
     postsRoutes             = require("./routes/posts"),
     authRoutes              = require("./routes/auth")
@@ -38,19 +40,21 @@ let commentRoutes           = require("./routes/comments"),
         resave: false,
         saveUninitialized: false
     }));
+
+    // passport js
     app.use(passport.initialize());
     app.use(passport.session());
 
-    // setting a general variable, signed in user
+    // setting a general variable, signed in user to ALL routes
     app.use(function(req,res,next){
         res.locals.currentUser = req.user;
         next();
     })
 
-        // App use Routes
-        app.use(authRoutes)
-        app.use("/posts",postsRoutes)
-        app.use("/posts/:id/comments",commentRoutes) //to be able to pass :id, mergeParams: true is required in the route
+    // Routes ==> use and shorten up url
+    app.use("/posts/:id/comments",commentRoutes) //to be able to pass :id, mergeParams: true is required in the route
+    app.use("/posts",postsRoutes)
+    app.use(authRoutes)
     
 
 // PASSPORT CONFIG

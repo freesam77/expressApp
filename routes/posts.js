@@ -63,7 +63,7 @@ let express = require("express"),
 
     // EDIT
 
-    router.get("/:id/edit",function(req,res){
+    router.get("/:id/edit", isLoggedIn, function(req,res){
 
         Post.findById(req.params.id,function(err, posts){
             if(err){
@@ -86,7 +86,7 @@ let express = require("express"),
                 console.log("error updating!")
                 res.redirect('/')
             }else{
-                res.redirect('/' + req.params.id)
+                res.redirect('/posts/' + req.params.id)
             }
         })
 

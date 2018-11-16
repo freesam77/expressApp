@@ -4,7 +4,7 @@ let commentSchema = new mongoose.Schema({
     author: {
         id: {
             type: mongoose.Schema.Types.ObjectId,
-            ref: "User"
+            ref: "User" // this refers to the module.exports that is done in user.js
         },
         username: String
     },

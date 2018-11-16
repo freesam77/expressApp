@@ -1,5 +1,5 @@
 let express = require("express"),
-    router  = express.Router({mergeParams: true}),
+    router  = express.Router({mergeParams: true}), // mergeparams true sends the :id to the parent file
     Post = require("../models/post"),
     Comment = require("../models/comment")
 

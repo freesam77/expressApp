@@ -5,15 +5,11 @@ let express                 = require("express"),
 let bodyParser              = require("body-parser"),
     methodOverride          = require("method-override"),
     mongoose                = require("mongoose"),
-    request                 = require("request"),
     passport                = require("passport"),   // PassportJS, for authentication
-    LocalStrategy           = require("passport-local"),   // Passport local strategy
-    passportLocalMongoose   = require("passport-local-mongoose");
+    LocalStrategy           = require("passport-local");
 
     // Models
-let post                    = require("./models/post"),
-    Comment                 = require("./models/comment"),
-    User                    = require("./models/user");
+let User                    = require("./models/user");
         
     // Seeds
 let seedDB                  = require("./seeds");
@@ -74,6 +70,6 @@ app.get('*', function (req, res) {
     res.send('The Page you requested doesn\'t exist!')
 })
 
-app.listen(3000,function(req, res){
+app.listen(3000,function(){
     console.log("server started!")
   })

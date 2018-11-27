@@ -2,7 +2,7 @@ let express = require("express"),
     router  = express.Router(),
     Post    = require("../models/post")
 
-        // Check if user is logged in
+    // Check if user is logged in
 
         function isLoggedIn(req,res,next){
             if(req.isAuthenticated()){

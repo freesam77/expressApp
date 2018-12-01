@@ -2,7 +2,7 @@ let express = require("express"),
     router  = express.Router(),
     Post    = require("../models/post")
 
-    // Check if user is logged in
+    // Middleware = Check if user is logged in
 
         function isLoggedIn(req,res,next){
             if(req.isAuthenticated()){
@@ -33,13 +33,18 @@ let express = require("express"),
 
     // CREATE
     router.post('/',isLoggedIn, function (req, res) {
-        let camp = req.body.camp;
-
-        Post.create(camp, function(err,posts){
+        // Strat 1
+        let post = req.body.post; // camp is created from the form submission of 'views/posts/new'
+        post.author = {
+            id: req.user._id,
+            username: req.user.username
+        }
+        
+        Post.create(post, function(err,posts){
             if (err) {
-                console.log(err)
+                console.log(err.message)
             } else {
-                console.log("New entry : ");
+                console.log("New entry");
                 console.log(posts)
             }
         })

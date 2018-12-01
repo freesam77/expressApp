@@ -3,15 +3,15 @@ let express = require("express"),
     Post = require("../models/post"),
     Comment = require("../models/comment")
 
-        // Check if user is logged in
+    // MIDDLEWARE - Check if user is logged in
 
-        function isLoggedIn(req,res,next){
-            if(req.isAuthenticated()){
-                return next();
-            }else{
-                res.redirect("/login");
-            }
+    function isLoggedIn(req,res,next){
+        if(req.isAuthenticated()){
+            return next();
+        }else{
+            res.redirect("/login");
         }
+    }
     
 
     // NEW
@@ -36,8 +36,6 @@ let express = require("express"),
                 console.log("Finding post ERROR");
                 res.redirect("/posts")
             }else{
-                console.log("Comment created :");
-                console.log(newcomment);
                 Comment.create(newcomment, function(err, newcom){
                     if(err){
                         console.log(err);
@@ -50,7 +48,8 @@ let express = require("express"),
                         
                         posts.comments.push(newcom);
                         posts.save();
-
+                        console.log("Comment created :");
+                        console.log(newcom)
                         res.redirect("/posts/" + posts._id);
                     }
                 })

@@ -3,7 +3,7 @@ let express     = require("express"),
     passport    = require("passport"),
     User        = require("../models/user")
 
-
+    // USER REGISTRATION
         // GET
         router.get("/register",function(req,res){
             res.render("./auth/register")
@@ -38,7 +38,7 @@ let express     = require("express"),
             successRedirect: "/posts",
             failureRedirect: "/login"
             }), function(req,res){
-                // this callback doesn't do anything
+                // this callback is just here to avoid error, but it doesn't actually do anything...yippie!
         })
 
     // LOGOUT

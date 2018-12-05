@@ -2,15 +2,6 @@ let express = require("express"),
     router  = express.Router(),
     Post    = require("../models/post")
 
-    // Middleware = Check if user is logged in
-
-        function isLoggedIn(req,res,next){
-            if(req.isAuthenticated()){
-                return next();
-            }else{
-                res.redirect("/login");
-            }
-        }
     
 
     // INDEX
@@ -70,16 +61,16 @@ let express = require("express"),
 
     // EDIT
 
-    router.get("/:id/edit", isLoggedIn, function(req,res){
+    router.get("/:id/edit", checkPostOwnership, function(req,res){
         
 
         Post.findById(req.params.id,function(err, foundPost){
-            if(err){
-                console.log(err.message);
-                res.redirect("/posts")
-            }else{
+            // if(err){
+            //     console.log(err.message);
+            //     res.redirect("/posts")
+            // }else{
                 res.render("./posts/edit",{posts: foundPost})
-            }
+            // }
             
         })
 
@@ -115,5 +106,34 @@ let express = require("express"),
     // router.get('/*', function (req, res) {
     //     res.redirect("/")
     // })
+
+
+// Middleware = Check if user is logged in
+
+    function isLoggedIn(req,res,next){
+        if(req.isAuthenticated()){
+            return next();
+        }else{
+            res.redirect("back");
+        }
+    }
+
+    function checkPostOwnership(req,res,next){
+        if(req.isAuthenticated()){
+            Post.findById(req.params.id, function(err,foundPost){
+                if(err){
+                    res.redirect("back")
+                }else{
+                    if(foundPost.author.id.equals(req.user._id)){
+                        next()
+                    }else{
+                        res.redirect("back");
+                    }
+                }
+            })
+        }else{
+            res.redirect("back");
+        }
+    }
 
 module.exports = router;

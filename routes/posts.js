@@ -20,6 +20,7 @@ let express = require("express"),
         Post.find({},function(err, alldata){
             if(err){
                 console.log(err);
+                res.redirect("/")
             }else{
                 res.render("posts/index",{posts: alldata})
             }
@@ -43,6 +44,7 @@ let express = require("express"),
         Post.create(post, function(err,posts){
             if (err) {
                 console.log(err.message)
+                res.redirect("/posts")
             } else {
                 console.log("New entry");
                 console.log(posts)
@@ -58,7 +60,7 @@ let express = require("express"),
         Post.findById(req.params.id).populate("comments").exec(function(err, posts){
             if(err){
                 console.log(err);
-                console.log("error!");
+                res.redirect("/posts")
             }else{
                 res.render("./posts/show",{posts: posts})
             }
@@ -69,14 +71,16 @@ let express = require("express"),
     // EDIT
 
     router.get("/:id/edit", isLoggedIn, function(req,res){
+        
 
-        Post.findById(req.params.id,function(err, posts){
+        Post.findById(req.params.id,function(err, foundPost){
             if(err){
                 console.log(err.message);
                 res.redirect("/posts")
             }else{
-                res.render("./posts/edit",{posts: posts})
+                res.render("./posts/edit",{posts: foundPost})
             }
+            
         })
 
     })
@@ -105,5 +109,11 @@ let express = require("express"),
         })
 
     })
+
+    // error when = "/posts/edit"
+
+    // router.get('/*', function (req, res) {
+    //     res.redirect("/")
+    // })
 
 module.exports = router;

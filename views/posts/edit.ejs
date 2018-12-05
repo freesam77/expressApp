@@ -2,7 +2,7 @@
 
 <div class="col-md-6 offset-md-3">
         <h1>Edit <%=posts.name%></h1>
-        <form action="/posts/<%=posts._id%>?_method=PUT" method="POST">
+        <form action="/posts/<%=posts._id%>?_method=PUT" method="POST" class="d-inline">
 
                 <div class="form-group">
                         <label for="camp[name]">Name</label>
@@ -19,14 +19,12 @@
                     <textarea class="form-control" name="camp[desc]"rows="10"><%=posts.desc%></textarea>
                 </div>
 
-
-
-                <button type="submit" class="btn btn-primary btn-block">Submit!</button>
+                <button type="submit" class="btn btn-primary">Submit!</button>
         </form>
-        <form action="/posts/<%=posts._id%>?_method=DELETE" method="POST">
+        <form action="/posts/<%=posts._id%>?_method=DELETE" method="POST" class="d-inline">
             <button class="btn btn-danger">Delete</button>
         </form>
-        <a href="/posts">Go Back</a>
+        <a href="/posts" class="btn-outline-info btn">Go Back</a>
 </div>
 
 <% include ../partials/footer %>

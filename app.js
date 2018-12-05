@@ -63,11 +63,11 @@ let commentRoutes           = require("./routes/comments"),
     app.get('/', function (req, res) {
         res.render("home")
     })
-
-
-// Page not found for the rest of the route
+    
+    
+    // Page not found for the rest of the route
 app.get('*', function (req, res) {
-    res.send('The Page you requested doesn\'t exist!')
+        res.redirect("/")
 })
 
 app.listen(3000,function(){

@@ -16,6 +16,9 @@
           <p class="card-text">
             <%=posts.desc%>
           </p>
+          <%if(currentUser && (currentUser._id.toString() === posts.author.id.toString())){%>
+            <a href="/posts/<%= posts._id %>/edit" class="btn btn-info">Edit Post </a>
+            <%}%>
           <a href="/posts" class="btn btn-secondary">Back to Listing</a>
         </div>
       </div>

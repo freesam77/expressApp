@@ -15,10 +15,9 @@
                                   <h2 class="card-title"><%= x.name %></h2>
                                   <p><em>By: <%= x.author.username %></em></p>
                                   <a href="/posts/<%= x._id %>" class="btn btn-primary">More Info</a>
-                                  <%if(currentUser){%>
-                                        <%if(currentUser._id = x.author.id){%>
-                                  <a href="/posts/<%= x._id %>/edit" class="btn btn-success">Edit Post </a>
-                                  <%}}%>
+                                        <%if(currentUser && (currentUser._id.toString() === x.author.id.toString())){%>
+                                        <a href="/posts/<%= x._id %>/edit" class="btn btn-info">Edit Post </a>
+                                        <%}%>
                                           
                                 </div>
                         </div>

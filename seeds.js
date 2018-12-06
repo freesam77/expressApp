@@ -14,7 +14,7 @@ let generateData = (num) => {
       // image: "https://upload.wikimedia.org/wikipedia/commons/4/4b/What_Is_URL.jpg",
       desc: faker.lorem.paragraph(),
       author:{
-        // id: 159023409543,
+        id: 159023409543,
         username: faker.internet.userName()
       }
     }

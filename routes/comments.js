@@ -9,7 +9,7 @@ let express = require("express"),
         if(req.isAuthenticated()){
             return next();
         }else{
-            res.redirect("/login");
+            res.redirect("back");
         }
     }
     
@@ -21,6 +21,7 @@ let express = require("express"),
             if(err){
                 console.log(err);
                 console.log("error!");
+                res.redirect("back")
             }else{
                 res.render("./comments/new",{posts: posts})
             }
@@ -34,7 +35,7 @@ let express = require("express"),
             if(err){
                 console.log(err);
                 console.log("Finding post ERROR");
-                res.redirect("/posts")
+                res.redirect("back")
             }else{
                 Comment.create(newcomment, function(err, newcom){
                     if(err){
@@ -54,8 +55,32 @@ let express = require("express"),
                     }
                 })
 
-            }
+                }
+            })
+
+            // EDIT
+            router.get("/:comment_id/edit",function(req,res){
+                Comment.findById(req.params.comment_id,function(err, foundComment){
+                    if(err){
+                        res.redirect("back")
+                    }else{
+                        res.render("./comments/edit", {posts_id: req.params.id, comment: foundComment});
+                    }
+                })
+                
+            })
+
+            // UPDATE
+            router.put("/:comment_id",function(req,res){
+                console.log(req);
+                Comment.findOneAndUpdate({ _id: req.params.comment_id}, req.body.comment, function(err, updatedComment){
+                    if(err){
+                        res.redirect("back");
+                    }else{
+                        res.redirect("/posts/" + req.params.id)
+                    }
+                })
+            })
         })
-    })
 
 module.exports = router;

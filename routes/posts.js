@@ -124,10 +124,6 @@ let express = require("express"),
                 if(err){
                     res.redirect("back")
                 }else{
-                    console.log("this is foundPost's author id")
-                    console.log(foundPost.author.id)
-                    console.log("this is req.user_id")
-                    console.log(req.user._id)
                     if(foundPost.author.id.equals(req.user._id)){
                         next()
                         }else{

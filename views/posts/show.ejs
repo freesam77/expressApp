@@ -33,11 +33,16 @@
           <p><strong><%=comment.author.username%></strong></p>
           <p><%=comment.comment%></p>
 
-          <% if(comment.author.id == currentUser._id.toString()){ %>
+
+          <% if(currentUser && comment.author.id === currentUser._id.toString()){ %>
             <a  class="btn btn-sm btn-warning"
               href="/posts/<%=posts._id%>/comments/<%=comment._id%>/edit">
               Edit
           </a>
+
+          <form action="/posts/<%=posts._id%>/comments/<%=comment._id%>?_method=DELETE" method="POST" class="d-inline">
+            <input type="submit" class="btn btn-sm btn-danger" value="Delete">
+          </form>
           <% } %>
           <hr>
         <%})%>

@@ -1,11 +1,12 @@
 let express = require("express"),
     router  = express.Router({mergeParams: true}), // mergeparams true sends the :id to the parent file
     Post = require("../models/post"),
-    Comment = require("../models/comment")
+    Comment = require("../models/comment"),
+    Middleware = require("../middleware")
 
 
     // NEW
-    router.get("/new",isLoggedIn,function(req,res){
+    router.get("/new",Middleware.isLoggedIn,function(req,res){
 
         Post.findById(req.params.id).populate("comments").exec(function(err, posts){
             if(err){
@@ -18,7 +19,7 @@ let express = require("express"),
         })
     })
     // CREATE
-    router.post("/",isLoggedIn,function(req,res){
+    router.post("/",Middleware.isLoggedIn,function(req,res){
         let newcomment = req.body.comment;
 
         Post.findById(req.params.id, function(err, posts){
@@ -49,7 +50,7 @@ let express = require("express"),
             })
 
         // EDIT
-        router.get("/:comment_id/edit",checkCommentOwnership,function(req,res){
+        router.get("/:comment_id/edit",Middleware.checkCommentOwnership,function(req,res){
             Comment.findById(req.params.comment_id,function(err, foundComment){
                 if(err){
                     res.redirect("back")
@@ -61,7 +62,7 @@ let express = require("express"),
         })
 
         // UPDATE
-        router.put("/:comment_id",checkCommentOwnership,function(req,res){
+        router.put("/:comment_id",Middleware.checkCommentOwnership,function(req,res){
             Comment.findOneAndUpdate({ _id: req.params.comment_id}, req.body.comment, function(err, updatedComment){
                 if(err){
                     res.redirect("back");
@@ -72,7 +73,7 @@ let express = require("express"),
         })
 
         // DELETE
-        router.delete("/:comment_id",checkCommentOwnership,function(req,res){
+        router.delete("/:comment_id",Middleware.checkCommentOwnership,function(req,res){
             Comment.findByIdAndRemove(req.params.comment_id, function(err){
                 res.redirect('/posts/' + req.params.id)
             })
@@ -80,35 +81,5 @@ let express = require("express"),
     })
 
 
-    // MIDDLEWARE - Check if user is logged in
-
-    function isLoggedIn(req,res,next){
-        if(req.isAuthenticated()){
-            return next();
-        }else{
-            res.redirect("back");
-        }
-    }
-    
-
-    function checkCommentOwnership(req,res,next){
-        if(req.isAuthenticated()){
-            Comment.findById(req.params.comment_id, function(err,foundComment){
-                if(err){
-                    res.redirect("back")
-                }else{
-                    if(foundComment.author.id.equals(req.user._id)){
-                        next()
-                        }else{
-                            console.log("Error : Editing this comment is only restricted to the owner.")
-                            res.redirect("back");
-                        }
-                }
-            })
-        }else{
-            console.log("You are not logged in!")
-            res.redirect("back");
-        }
-    }
 
 module.exports = router;

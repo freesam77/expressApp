@@ -1,6 +1,7 @@
 let express = require("express"),
     router  = express.Router(),
-    Post    = require("../models/post")
+    Post    = require("../models/post"),
+    Middleware = require("../middleware")
 
     
 
@@ -19,12 +20,12 @@ let express = require("express"),
 
     })
     // NEW
-    router.get('/new',isLoggedIn, function (req, res) {
+    router.get('/new',Middleware.isLoggedIn, function (req, res) {
         res.render("posts/new")
     })
 
     // CREATE
-    router.post('/',isLoggedIn, function (req, res) {
+    router.post('/',Middleware.isLoggedIn, function (req, res) {
         // Strat 1
         let post = req.body.post; // camp is created from the form submission of 'views/posts/new'
         post.author = {
@@ -61,7 +62,7 @@ let express = require("express"),
 
     // EDIT
 
-    router.get("/:id/edit", checkPostOwnership, function(req,res){
+    router.get("/:id/edit", Middleware.checkPostOwnership, function(req,res){
         
 
         Post.findById(req.params.id,function(err, foundPost){
@@ -101,40 +102,5 @@ let express = require("express"),
 
     })
 
-    // error when = "/posts/edit"
-
-    // router.get('/*', function (req, res) {
-    //     res.redirect("/")
-    // })
-
-
-// Middleware = Check if user is logged in
-
-    function isLoggedIn(req,res,next){
-        if(req.isAuthenticated()){
-            return next();
-        }else{
-            res.redirect("back");
-        }
-    }
-
-    function checkPostOwnership(req,res,next){
-        if(req.isAuthenticated()){
-            Post.findById(req.params.id, function(err,foundPost){
-                if(err){
-                    res.redirect("back")
-                }else{
-                    if(foundPost.author.id.equals(req.user._id)){
-                        next()
-                        }else{
-                            console.log("Error : Editing this post is only restricted to the owner.")
-                            res.redirect("back");
-                        }
-                }
-            })
-        }else{
-            res.redirect("back");
-        }
-    }
 
 module.exports = router;

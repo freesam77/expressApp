@@ -1,12 +1,15 @@
     // Express JS
 let express                 = require("express"),
     app                     = express();
-    // Modules
+
+    // Modules, needs to be "used" inside this app file below
 let bodyParser              = require("body-parser"),
     methodOverride          = require("method-override"),
     mongoose                = require("mongoose"),
     passport                = require("passport"),   // PassportJS, for authentication
-    LocalStrategy           = require("passport-local");
+    LocalStrategy           = require("passport-local"),
+    flash                   = require("connect-flash"); // Flash messages for errors and warnings 
+
 
     // Models
 let User                    = require("./models/user");
@@ -36,6 +39,8 @@ let commentRoutes           = require("./routes/comments"),
         resave: false,
         saveUninitialized: false
     }));
+
+    app.use(flash());
 
     // passport js
     app.use(passport.initialize());

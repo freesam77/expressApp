@@ -46,9 +46,11 @@ let commentRoutes           = require("./routes/comments"),
     app.use(passport.initialize());
     app.use(passport.session());
 
-    // setting a general variable, signed in user to ALL routes
+    // General Variables / Passing Objects
     app.use(function(req,res,next){
         res.locals.currentUser = req.user;
+        res.locals.error = req.flash("error")
+        res.locals.success = req.flash("success")
         next();
     })
 

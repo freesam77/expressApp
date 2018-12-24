@@ -66,13 +66,7 @@ let express = require("express"),
         
 
         Post.findById(req.params.id,function(err, foundPost){
-            // if(err){
-            //     console.log(err.message);
-            //     res.redirect("/posts")
-            // }else{
                 res.render("./posts/edit",{posts: foundPost})
-            // }
-            
         })
 
     })

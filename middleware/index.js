@@ -6,6 +6,7 @@ middlewareObj.isLoggedIn = (req,res,next) => {
         if(req.isAuthenticated()){
             return next();
         }else{
+            // setting up the error flash message
             req.flash("error","You need to be logged in!")
             res.redirect("/login");
         }
@@ -20,13 +21,15 @@ middlewareObj.checkPostOwnership = (req,res,next) => {
                     if(foundPost.author.id.equals(req.user._id)){
                         next()
                         }else{
-                            console.log("Error : Editing this post is only restricted to the owner.")
+                            // setting up the error flash message
+                            req.flash("error","Editing this post is only restricted to the owner.")
                             res.redirect("back");
                         }
-                }
-            })
-        }else{
-            res.redirect("back");
+                    }
+                })
+            }else{
+            req.flash("error","You have to be logged in to do that!")
+            res.redirect("/posts/" + req.params.id);
         }
     }
 
@@ -39,13 +42,15 @@ middlewareObj.checkCommentOwnership = (req,res,next) => {
                     if(foundComment.author.id.equals(req.user._id)){
                         next()
                         }else{
-                            console.log("Error : Editing this comment is only restricted to the owner.")
+                            // setting up the error flash message
+                            req.flash("error","Editing this comment is only restricted to the owner.")
                             res.redirect("back");
                         }
                 }
             })
         }else{
-            console.log("You are not logged in!")
+            // setting up the error flash message
+            req.flash("error","You are not logged in!")
             res.redirect("back");
         }
     }

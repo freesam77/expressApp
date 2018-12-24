@@ -16,11 +16,10 @@ let express     = require("express"),
             let password = req.body.password;
             User.register({username: username}, password, function(err, user){
                 if(err){
-                    console.log(err)
+                    req.flash("error","Error creating user.")
                     return res.render("./auth/register")
                 }
-                console.log("Created new user:")
-                console.log(user)
+                req.flash("success","Created new user!")
                 passport.authenticate("local")(req,res, function(){
                     res.redirect("/posts")
                 });
@@ -30,7 +29,7 @@ let express     = require("express"),
     // LOGIN
         // GET
         router.get("/login",function(req,res){
-            res.render("./auth/login", {message: req.flash("error")})
+            res.render("./auth/login")
         })
 
         // POST
@@ -45,6 +44,7 @@ let express     = require("express"),
         // GET
         router.get("/logout",function(req,res){
             req.logout();
+            req.flash("success","Logged out successfully!")
             res.redirect("/")
         })
 

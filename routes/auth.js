@@ -16,11 +16,13 @@ let express     = require("express"),
             let password = req.body.password;
             User.register({username: username}, password, function(err, user){
                 if(err){
-                    req.flash("error","Error creating user.")
-                    return res.render("./auth/register")
+                    console.log(err.message)
+                    req.flash("error",err.message)
+                    // return res.render("./auth/register")
+                    res.redirect("back")
                 }
-                req.flash("success","Created new user!")
                 passport.authenticate("local")(req,res, function(){
+                    req.flash("success","Welcome " + user.username + "!")
                     res.redirect("/posts")
                 });
             })
@@ -37,6 +39,7 @@ let express     = require("express"),
             successRedirect: "/posts",
             failureRedirect: "/login"
             }), function(req,res){
+                req.flash("success","Welcome back,"+username+"!")
                 // this callback is just here to avoid error, but it doesn't actually do anything...yippie!
         })
 

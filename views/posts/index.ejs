@@ -1,5 +1,5 @@
 <% include ../partials/header %>
-<div class="row">
+<div class="row align-bottom">
     
     <h1>Posts</h1>
 
@@ -9,16 +9,17 @@
 <div class="row">
     
         <% posts.forEach(x => {%>
-                        <div class="col-lg-6 col-sm-12 card align-items-center text-center">
+                        <div class="col-lg-4 col-sm-12 card pa-0 ma-0">
                                 <img class="card-img-top" src="<%= x.image %>" alt="<%= x.name %>">
                                 <div class="card-body">
                                   <h2 class="card-title"><%= x.name %></h2>
                                   <p><em>By: <%= x.author.username %></em></p>
                                   <a href="/posts/<%= x._id %>" class="btn btn-primary">More Info</a>
-                                        <%if(currentUser && (currentUser._id.toString() === x.author.id.toString())){%>
-                                        <a href="/posts/<%= x._id %>/edit" class="btn btn-info">Edit Post </a>
-                                        <%}%>
-                                          
+
+                                <%if(currentUser && (currentUser._id.toString() === x.author.id.toString())){%>
+                                <a href="/posts/<%= x._id %>/edit" class="btn btn-info">Edit Post </a>
+                                <%}%>
+
                                 </div>
                         </div>
         <% }) %>

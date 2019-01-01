@@ -37,9 +37,10 @@ let express     = require("express"),
         // POST
         router.post("/login",passport.authenticate("local",{
             successRedirect: "/posts",
-            failureRedirect: "/login"
+            failureRedirect: "/login",
+            failureFlash: true,
+            successFlash: "Logged in successfully!"
             }), function(req,res){
-                req.flash("success","Welcome back,"+username+"!")
                 // this callback is just here to avoid error, but it doesn't actually do anything...yippie!
         })
 

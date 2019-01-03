@@ -29,7 +29,10 @@ let commentRoutes           = require("./routes/comments"),
     // Local Database
     // mongoose.connect("mongodb://localhost/yelp", { useNewUrlParser: true });
     // Mongolab Database
-    mongoose.connect("mongodb://restful1:restAPP1@ds247944.mlab.com:47944/restfulapp", { useNewUrlParser: true });
+    // mongoose.connect("mongodb://restful1:restAPP1@ds247944.mlab.com:47944/restfulapp", { useNewUrlParser: true });
+
+    var url = process.env.DATABASEURL || "mongodb://localhost/yelp"
+    mongoose.connect(url, { useNewUrlParser: true });
 
 
 // APP CONFIG
@@ -80,6 +83,12 @@ app.get('*', function (req, res) {
         res.redirect("/")
 })
 
-app.listen(3000,function(){
-    console.log("server started!")
+// Run the app locally
+// app.listen(3000,function(){
+//     console.log("server started!")
+//   })
+
+// Run the app online
+app.listen(process.env.PORT,process.env.IP,function(){
+    console.log("server has started online!")
   })

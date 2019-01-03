@@ -1,6 +1,6 @@
 # Restful APP
 
-## [Checkout the live version](https://murmuring-fortress-47237.herokuapp.com/)
+## [Checkout the live version](https://restfulapp.herokuapp.com/)
 
 
 #### Note about the app

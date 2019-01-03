@@ -15,10 +15,10 @@ let bodyParser              = require("body-parser"),
 let User                    = require("./models/user");
         
     // Seeds
-let seedDB                  = require("./seeds");
-    console.log("seeding the data...")
-    seedDB();
-    console.log("seeding completed!")
+// let seedDB                  = require("./seeds");
+//     console.log("seeding the data...")
+//     seedDB();
+//     console.log("seeding completed!")
 
     // Routes ==> require
 let commentRoutes           = require("./routes/comments"),
@@ -26,7 +26,10 @@ let commentRoutes           = require("./routes/comments"),
     authRoutes              = require("./routes/auth")
 
 
-    mongoose.connect("mongodb://localhost/yelp", { useNewUrlParser: true });
+    // Local Database
+    // mongoose.connect("mongodb://localhost/yelp", { useNewUrlParser: true });
+    // Mongolab Database
+    mongoose.connect("mongodb://restful1:restAPP1@ds247944.mlab.com:47944/restfulapp", { useNewUrlParser: true });
 
 
 // APP CONFIG

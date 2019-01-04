@@ -13,7 +13,7 @@
 
 
 #### Tools Used
-- Bootstrap 4.2 (Front-End Framework)
+- Bootstrap 4.2 (HTML/CSS Framework)
 - Node.js (Server side)
 - MongoDB & Mongoose (Database)
 - Passport.js (Authentication for user login)
